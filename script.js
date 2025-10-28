@@ -45,9 +45,26 @@ class Click{
     clicar(banco, valorPont, clicou){
         banco.adicionar(this.#valor);
         valorPont.textContent = banco.getSaldo();
+
+        this.#animarClique(clicou);
     }
 
+    #animarClique(clicou){
+    const num = document.createElement("span");
+    num.textContent = `+${this.#valor}`;
+    num.classList.add("floating");
+
+    num.style.left = `${clicou.clientX}px`;
+    num.style.top = `${clicou.clientY - 20}px`;
+
+    document.body.appendChild(num);
+    setTimeout(() => num.remove(),500);
 }
+
+}
+
+
+
 
 const imgGato = document.getElementById("gatoSol");
 const valorPont = document.getElementById("pontuacao");

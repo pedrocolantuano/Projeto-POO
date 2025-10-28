@@ -13,11 +13,35 @@
     background-color: #40E0D0;
 }
 
-.jogo img{
+#gatoSol{
     position: absolute;
     width: 400px;
     padding-top: 30%;
     padding-left: 30%;
+    cursor: pointer;
+    transition: transform 0.1s ease;
+}
+
+#gatoSol:active {
+  transform: scale(0.9);
+}
+
+.floating {
+  position: absolute;
+  font-weight: bold;
+  color: #ffffff;
+  animation: floatUp 1s ease-out forwards;
+}
+
+@keyframes floatUp {
+  from {
+    opacity: 1;
+    transform: translateY(0);
+  }
+  to {
+    opacity: 0;
+    transform: translateY(-60px);
+  }
 }
 
 
