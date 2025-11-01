@@ -1,16 +1,63 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <link rel="stylesheet" href="style.css">
     <title>CatMiner</title>
 </head>
+
 <body>
     <section class="jogo">
-        <h1>Pontuação: <span id="pontuacao">0</span></h1>
+        <h1>Miados: <span id="pontuacao">0</span><br> <span id="rendaPassiva">0</span> Mps</h1>
         <img src="./img/sol.png" alt="O gatinho sol" id="gatoSol">
     </section>
-    <script src="script.js"></script>
+    <section class="hud">
+        <div class="navbar">
+            <h3 data-page="upgrades" class="ativo">Upgrades</h3>
+            <h3 data-page="objetivos">Objetivos</h3>
+            <h3 data-page="salvar">Salvar</h3>
+        </div>
+        <div class="conteudo" id="conteudo">
+            <!-- conteúdo inicial -->
+            <div class="fade-in upgrades-content">
+                <div class="click-up">
+                    <h2>Aumente o valor do clique!</h2>
+                    <button id="btn-upClick">Miar mais alto</button>
+                    Preço: <span id="preco-up1">100</span><br><br>
+                </div>
+                <div class="intro-ups">
+                    <h1>Peça ajuda aos especialistas!</h1>
+                </div>
+                <div class="linha-up">
+                    <div class="card-up">
+                        <div class="img-up">
+                            <img src="./img/up1.png" alt="Imagem gato mexendo no computador">
+                        </div>
+                        <div class="txt-btn">
+                            <h4 class="tit-up">Gatinho Hacker</h4>
+                            <p class="desc">Eles fazem barulinhos de teclas!</p>
+                            <button id="btn-upPassivo1">Comprar</button>
+                            <p>Preço: <span id="preco-passivo1">50</span></p>
+                        </div>
+                    </div>
+                    <div class="card-up">
+                        <div class="img-up">
+                            <img src="./img/up2.png" alt="Imagem gato dormindo">
+                        </div>
+                        <div class="txt-btn">
+                            <h4 class="tit-up">Filhote de To não</h4>
+                            <p class="desc">Ele faz barulinhos enquanto dorme.</p>
+                            <button id="btn-upPassivo2">Comprar</button>
+                            <p>Preço: <span id="preco-passivo2">50</span></p>
+                        </div>
+                    </div>
+
+                </div>
+            </div>
+    </section>
+    <script type="module" src="./dist/script.js"></script>
 </body>
+
 </html>

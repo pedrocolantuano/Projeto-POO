@@ -1,26 +1,124 @@
+@charset "UTF-8";
+@import url("https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700;800;900&display=swap");
 * {
   margin: 0;
   padding: 0;
   border: 0;
   font-size: 100%;
+  box-sizing: border-box;
+}
+
+html,
+body {
+  height: 100%;
+}
+
+body {
+  display: flex;
+  flex-direction: row;
+  min-height: 100vh;
 }
 
 .jogo {
   position: relative;
   width: 50vw;
   height: 100vh;
+  flex: 0 0 50vw;
   background-color: #40E0D0;
 }
+.jogo h1 {
+  position: sticky;
+  top: 10%;
+  font-family: "Poppins", sans-serif;
+  font-size: 2rem;
+  padding-left: 2rem;
+}
 
+.hud {
+  width: 50vw;
+  height: 100vh;
+  flex: 0 0 50vw;
+  display: flex;
+  flex-direction: column;
+}
+
+.navbar {
+  display: flex;
+  gap: 20%;
+  justify-content: center;
+  border-bottom: solid 1px;
+}
+.navbar h3 {
+  color: black;
+  cursor: pointer;
+  transition: color 0.2s;
+}
+.navbar h3.ativo {
+  color: #0072ff;
+  font-weight: bold;
+}
+.navbar h3:hover {
+  color: #0072ff;
+}
+
+/* Conteúdo que muda */
+.conteudo {
+  flex: 1;
+  padding: 1rem;
+  position: relative;
+}
+.conteudo .upgrades-content {
+  background-color: rgba(0, 255, 255, 0.1);
+  border-radius: 10px;
+  padding: 1rem;
+}
+.conteudo .objetivos-content {
+  background-color: rgba(255, 215, 0, 0.1);
+}
+.conteudo .salvar-content {
+  background-color: rgba(144, 238, 144, 0.1);
+  border: 1px dashed #228b22;
+  padding: 1rem;
+}
+.conteudo .salvar-content button {
+  background: #22a122;
+  color: white;
+  border: none;
+  padding: 0.5rem 1rem;
+  border-radius: 8px;
+}
+.conteudo .salvar-content button:hover {
+  background: #1c861c;
+}
+.conteudo .salvar-content p {
+  margin-top: 0.5rem;
+  color: #006400;
+}
+
+/* animação fade */
+.fade-in {
+  animation: fadeIn 0.3s ease-in;
+}
+
+@keyframes fadeIn {
+  from {
+    opacity: 0;
+    transform: translateY(10px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
 #gatoSol {
   position: absolute;
   width: 400px;
-  padding-top: 30%;
-  padding-left: 30%;
+  max-width: 40vw;
+  margin-top: 30%;
+  margin-left: 30%;
   cursor: pointer;
   transition: transform 0.1s ease;
 }
-
 #gatoSol:active {
   transform: scale(0.9);
 }
@@ -41,4 +139,121 @@
     opacity: 0;
     transform: translateY(-60px);
   }
+}
+@media (max-width: 1000px) {
+  body {
+    flex-direction: column;
+  }
+  .hud,
+  .jogo {
+    width: 100vw;
+    flex: 0 0 50vh;
+    height: 50vh;
+  }
+  .jogo h1 {
+    padding-left: 1rem;
+    text-align: center;
+  }
+  #gatoSol {
+    margin-top: 10vh;
+    margin-left: 35vw;
+    margin-right: auto;
+    display: block;
+    width: 250px;
+  }
+}
+.intro-ups {
+  padding-top: 3rem;
+}
+.intro-ups h1 {
+  text-align: center;
+  padding-bottom: 1rem;
+  font-family: "Poppins", sans-serif;
+  font-weight: 700;
+  font-size: 2rem;
+}
+
+.click-up {
+  margin-top: 1rem;
+}
+.click-up h2 {
+  text-align: center;
+  padding-bottom: 1rem;
+  font-family: "Poppins", sans-serif;
+  font-weight: 700;
+  font-size: 2rem;
+}
+.click-up button {
+  background: #0072ff;
+  color: white;
+  border: none;
+  padding: 0.5rem 1rem;
+  border-radius: 8px;
+  cursor: pointer;
+  transition: background 0.2s;
+}
+.click-up button:hover {
+  background: #0059cc;
+}
+
+.linha-up {
+  display: flex;
+  height: 20vh;
+  border: solid;
+}
+
+.card-up {
+  display: flex;
+  width: 50%;
+  height: 100%;
+}
+
+.img-up {
+  width: 100%;
+  display: flex; /* Para centralizar o conteúdo */
+  justify-content: center;
+  align-items: center;
+  /* 1. Adicione overflow: hidden; para cortar o excesso */
+  overflow: hidden;
+  /* Opcional: Garante que o container pai tenha uma altura definida para o overflow funcionar bem */
+  height: 100%;
+}
+
+.img-up img {
+  width: 300%;
+}
+
+.txt-btn {
+  width: 50%;
+}
+.txt-btn h4 {
+  padding-top: 1rem;
+  font-family: "Poppins", sans-serif;
+  font-size: 1rem;
+  font-weight: 700;
+}
+.txt-btn .desc {
+  padding-top: 0.3rem;
+  font-family: "Poppins", sans-serif;
+  font-size: 15px;
+  font-weight: 400;
+  padding-bottom: 1rem;
+}
+.txt-btn #btn-upPassivo1 {
+  width: 100px;
+  height: 30px;
+  border: 1px;
+  border-radius: 10px;
+  background-color: #22a122;
+  color: white;
+  cursor: pointer;
+  transition: background 0.2s;
+}
+.txt-btn #btn-upPassivo1:hover {
+  background: #115c25;
+}
+.txt-btn p {
+  font-family: "Poppins", sans-serif;
+  font-size: 15px;
+  font-weight: 400;
 }/*# sourceMappingURL=style.css.map */

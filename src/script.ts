@@ -1,0 +1,278 @@
+/* --------------------- CLASSES BASE --------------------- */
+
+window.addEventListener("DOMContentLoaded", () => {
+  ligarBotoes();
+});
+
+class Banco {
+    private saldo: number;
+
+    constructor(saldoInicial: number = 0) {
+        this.saldo = saldoInicial;
+    }
+
+    getSaldo(): number { return this.saldo; }
+
+    adicionar(valor: number): void { this.saldo += valor; }
+
+    remover(valor: number): boolean {
+        if (this.saldo >= valor) {
+            this.saldo -= valor;
+            return true;
+        }
+        return false;
+    }
+}
+
+class Click {
+    private valor: number;
+
+    constructor(valorInicial: number = 1) { this.valor = valorInicial; }
+
+    getValor(): number { return this.valor; }
+
+    aumentarValor(valor: number): void { this.valor += valor; }
+
+    clicar(banco: Banco, valorPont: HTMLElement, clicou: MouseEvent): void {
+        banco.adicionar(this.valor);
+        valorPont.textContent = banco.getSaldo().toString();
+        this.animarClique(clicou);
+    }
+
+    private animarClique(clicou: MouseEvent): void {
+        const num = document.createElement("span");
+        num.textContent = `+${this.valor}`;
+        num.classList.add("floating");
+        num.style.left = `${clicou.clientX}px`;
+        num.style.top = `${clicou.clientY - 20}px`;
+        document.body.appendChild(num);
+        setTimeout(() => num.remove(), 500);
+    }
+}
+
+/* --------------------- UPGRADES --------------------- */
+
+class UpgradeClick {
+    private nome: string;
+    private custo: number;
+    private bonus: number;
+    private nivel: number;
+
+    constructor(nome: string, custoInicial: number, bonus: number) {
+        this.nome = nome;
+        this.custo = custoInicial;
+        this.bonus = bonus;
+        this.nivel = 0;
+    }
+
+    getNome(): string { return this.nome; }
+    getCusto(): number { return this.custo; }
+    getNivel(): number { return this.nivel; }
+
+    comprar(click: Click, banco: Banco, spanPreco: HTMLElement): boolean {
+        if (banco.getSaldo() >= this.custo) {
+            banco.remover(this.custo);
+            this.nivel++;
+            click.aumentarValor(this.bonus);
+            this.custo = Math.floor(this.custo * 1.5);
+            spanPreco.textContent = this.custo.toString();
+            console.log(`${this.nome} nível ${this.nivel} comprado! Novo custo: ${this.custo}`);
+            return true;
+        }
+        console.log(`Saldo insuficiente para comprar ${this.nome}.`);
+        return false;
+    }
+}
+
+class UpgradePassivo {
+    private nome: string;
+    private custo: number;
+    private bonus: number;
+    private nivel: number;
+
+    constructor(nome: string, custoInicial: number, bonus: number) {
+        this.nome = nome;
+        this.custo = custoInicial;
+        this.bonus = bonus;
+        this.nivel = 0;
+    }
+
+    getNome(): string { return this.nome; }
+    getCusto(): number { return this.custo; }
+    getNivel(): number { return this.nivel; }
+
+    comprar(ganho: GanhoAutomatico, banco: Banco, spanPreco: HTMLElement): boolean {
+        if (banco.getSaldo() >= this.custo) {
+            banco.remover(this.custo);
+            this.nivel++;
+            ganho.aumentarTaxa(this.bonus);
+            this.custo = Math.floor(this.custo * 1.5);
+            spanPreco.textContent = this.custo.toString();
+            console.log(`${this.nome} nível ${this.nivel} comprado! Novo custo: ${this.custo}`);
+            return true;
+        }
+        console.log(`Saldo insuficiente para comprar ${this.nome}.`);
+        return false;
+    }
+}
+
+/* --------------------- GANHO AUTOMÁTICO --------------------- */
+
+class GanhoAutomatico {
+    private taxa: number;
+
+    constructor(taxaInicial: number = 0) { this.taxa = taxaInicial; }
+
+    getTaxa(): number { return this.taxa; }
+    aumentarTaxa(valor: number): void { this.taxa += valor; }
+    gerar(banco: Banco): void { banco.adicionar(this.taxa); }
+}
+
+/* --------------------- JOGO --------------------- */
+
+class Jogo {
+    banco: Banco;
+    click: Click;
+    ganhoAutomatico: GanhoAutomatico;
+
+    constructor() {
+        this.banco = new Banco();
+        this.click = new Click();
+        this.ganhoAutomatico = new GanhoAutomatico();
+        this.iniciarGanhoPorSegundo();
+    }
+
+    clicar(evento: MouseEvent, elementoPontuacao: HTMLElement): void {
+        this.click.clicar(this.banco, elementoPontuacao, evento);
+    }
+
+    comprarUpgradeClick(upgrade: UpgradeClick, spanPreco: HTMLElement): void {
+        upgrade.comprar(this.click, this.banco, spanPreco);
+    }
+
+    comprarUpgradePassivo(upgrade: UpgradePassivo, spanPreco: HTMLElement): void {
+        upgrade.comprar(this.ganhoAutomatico, this.banco, spanPreco);
+    }
+
+    private iniciarGanhoPorSegundo(): void {
+        setInterval(() => {
+            this.ganhoAutomatico.gerar(this.banco);
+            const spanPontuacao = document.getElementById("pontuacao");
+            const spanRendaPassiva = document.getElementById("rendaPassiva");
+
+            if (spanPontuacao) spanPontuacao.textContent = this.banco.getSaldo().toString();
+            if (spanRendaPassiva) spanRendaPassiva.textContent = this.ganhoAutomatico.getTaxa().toString();
+        }, 1000);
+    }
+}
+
+/* --------------------- INICIALIZAÇÃO --------------------- */
+
+const jogo = new Jogo();
+const imgGato = document.getElementById("gatoSol") as HTMLElement;
+const valorPont = document.getElementById("pontuacao") as HTMLElement;
+
+imgGato.addEventListener("click", (evento: MouseEvent) => {
+    jogo.clicar(evento, valorPont);
+});
+
+/* --------------------- NAVBAR E PÁGINAS --------------------- */
+
+const botoes = document.querySelectorAll(".navbar h3");
+const conteudo = document.getElementById("conteudo");
+if (!conteudo) throw new Error("Elemento #conteudo não encontrado");
+
+const paginas = {
+    upgrades: `
+    <div class="fade-in upgrades-content">
+                <div class="click-up">
+                    <h2>Aumente o valor do clique!</h2>
+                    <button id="btn-upClick">Miar mais alto</button>
+                    Preço: <span id="preco-up1">100</span><br><br>
+                </div>
+                <div class="intro-ups">
+                    <h1>Peça ajuda aos especialistas!</h1>
+                </div>
+                <div class="linha-up">
+                    <div class="card-up">
+                        <div class="img-up">
+                            <img src="./img/up1.png" alt="Imagem gato mexendo no computador">
+                        </div>
+                        <div class="txt-btn">
+                            <h4 class="tit-up">Gatinho Hacker</h4>
+                            <p class="desc">Eles fazem barulinhos de teclas!</p>
+                            <button id="btn-upPassivo1">Comprar</button>
+                            <p>Preço: <span id="preco-passivo1">50</span></p>
+                        </div>
+                    </div>
+                    <div class="card-up">
+                        <div class="img-up">
+                            <img src="./img/up2.png" alt="Imagem gato dormindo">
+                        </div>
+                        <div class="txt-btn">
+                            <h4 class="tit-up">Filhote de To não</h4>
+                            <p class="desc">Ele faz barulinhos enquanto dorme.</p>
+                            <button id="btn-upPassivo2">Comprar</button>
+                            <p>Preço: <span id="preco-passivo2">50</span></p>
+                        </div>
+                    </div>
+
+                </div>
+            </div>
+  `,
+    objetivos: `
+    <div class="fade-in objetivos-content">
+      <h4>Objetivo 1: Clique 50 vezes</h4>
+      <h4>Objetivo 2: Ganhe 100 moedas</h4>
+    </div>
+  `,
+    salvar: `
+    <div class="fade-in salvar-content">
+      <button>Salvar progresso</button>
+      <p>Progresso salvo com sucesso!</p>
+    </div>
+  `
+};
+
+botoes.forEach(botao => {
+    botao.addEventListener("click", () => {
+        botoes.forEach(b => b.classList.remove("ativo"));
+        botao.classList.add("ativo");
+        const paginaAttr = botao.getAttribute("data-page");
+        if (paginaAttr && paginaAttr in paginas) {
+            const pagina = paginaAttr as keyof typeof paginas;
+            conteudo.innerHTML = paginas[pagina];
+            ligarBotoes(); // liga os botões dos upgrades após trocar a página
+        }
+    });
+});
+
+/* --------------------- CRIAÇÃO DE UPGRADES --------------------- */
+
+const upgradeClick = new UpgradeClick("Clique Duplo", 100, 2);
+const upPassivo1 = new UpgradePassivo("Passivo 1", 50, 1);
+const upPassivo2 = new UpgradePassivo("Passivo 2", 200, 5);
+
+/* --------------------- FUNÇÃO PARA LIGAR BOTÕES --------------------- */
+
+function ligarBotoes() {
+    const btnUpClick = document.getElementById("btn-upClick");
+    const btnUpPassivo1 = document.getElementById("btn-upPassivo1");
+    const btnUpPassivo2 = document.getElementById("btn-upPassivo2");
+
+    const spanUpClick = document.getElementById("preco-up1") as HTMLElement;
+    const spanPassivo1 = document.getElementById("preco-passivo1") as HTMLElement;
+    const spanPassivo2 = document.getElementById("preco-passivo2") as HTMLElement;
+
+    if (btnUpClick) {
+        btnUpClick.addEventListener("click", () => jogo.comprarUpgradeClick(upgradeClick, spanUpClick));
+    }
+    if (btnUpPassivo1) {
+        btnUpPassivo1.addEventListener("click", () => jogo.comprarUpgradePassivo(upPassivo1, spanPassivo1));
+    }
+    if (btnUpPassivo2) {
+        btnUpPassivo2.addEventListener("click", () => jogo.comprarUpgradePassivo(upPassivo2, spanPassivo2));
+    }
+
+    console.log(btnUpClick, btnUpPassivo1, btnUpPassivo2);
+}
