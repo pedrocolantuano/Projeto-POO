@@ -1,7 +1,5 @@
-/* --------------------- CLASSES BASE --------------------- */
-
 window.addEventListener("DOMContentLoaded", () => {
-  ligarBotoes();
+    ligarBotoes();
 });
 
 class Banco {
@@ -35,7 +33,7 @@ class Click {
 
     clicar(banco: Banco, valorPont: HTMLElement, clicou: MouseEvent): void {
         banco.adicionar(this.valor);
-        valorPont.textContent = banco.getSaldo().toString();
+        valorPont.textContent = Math.floor(banco.getSaldo()).toString();
         this.animarClique(clicou);
     }
 
@@ -50,7 +48,6 @@ class Click {
     }
 }
 
-/* --------------------- UPGRADES --------------------- */
 
 class UpgradeClick {
     private nome: string;
@@ -73,7 +70,7 @@ class UpgradeClick {
         if (banco.getSaldo() >= this.custo) {
             banco.remover(this.custo);
             this.nivel++;
-            click.aumentarValor(this.bonus);
+            click.aumentarValor(this.nivel);
             this.custo = Math.floor(this.custo * 1.5);
             spanPreco.textContent = this.custo.toString();
             console.log(`${this.nome} nível ${this.nivel} comprado! Novo custo: ${this.custo}`);
@@ -109,6 +106,12 @@ class UpgradePassivo {
             this.custo = Math.floor(this.custo * 1.5);
             spanPreco.textContent = this.custo.toString();
             console.log(`${this.nome} nível ${this.nivel} comprado! Novo custo: ${this.custo}`);
+            if(this.nome === "GatoHacker"){
+                adicionarCardGato("../img/up1.png", this.nome);
+            }
+            else if(this.nome === "Filhote"){
+                adicionarCardGato("../img/up2.png", this.nome);
+            }
             return true;
         }
         console.log(`Saldo insuficiente para comprar ${this.nome}.`);
@@ -116,7 +119,6 @@ class UpgradePassivo {
     }
 }
 
-/* --------------------- GANHO AUTOMÁTICO --------------------- */
 
 class GanhoAutomatico {
     private taxa: number;
@@ -128,7 +130,6 @@ class GanhoAutomatico {
     gerar(banco: Banco): void { banco.adicionar(this.taxa); }
 }
 
-/* --------------------- JOGO --------------------- */
 
 class Jogo {
     banco: Banco;
@@ -155,18 +156,28 @@ class Jogo {
     }
 
     private iniciarGanhoPorSegundo(): void {
+        const updatesPorSegundo = 20;
+        const intervalo = 1000 / updatesPorSegundo;
+
         setInterval(() => {
-            this.ganhoAutomatico.gerar(this.banco);
+            const ganhoTotal = this.ganhoAutomatico.getTaxa();
+            const ganhoParcial = ganhoTotal / updatesPorSegundo;
+
+            this.banco.adicionar(ganhoParcial);
+
             const spanPontuacao = document.getElementById("pontuacao");
             const spanRendaPassiva = document.getElementById("rendaPassiva");
 
-            if (spanPontuacao) spanPontuacao.textContent = this.banco.getSaldo().toString();
-            if (spanRendaPassiva) spanRendaPassiva.textContent = this.ganhoAutomatico.getTaxa().toString();
-        }, 1000);
+            if (spanPontuacao) {
+                spanPontuacao.textContent = Math.floor(this.banco.getSaldo()).toString();
+            }
+            if (spanRendaPassiva) {
+                spanRendaPassiva.textContent = this.ganhoAutomatico.getTaxa().toString();
+            }
+        }, intervalo);
     }
 }
 
-/* --------------------- INICIALIZAÇÃO --------------------- */
 
 const jogo = new Jogo();
 const imgGato = document.getElementById("gatoSol") as HTMLElement;
@@ -176,7 +187,6 @@ imgGato.addEventListener("click", (evento: MouseEvent) => {
     jogo.clicar(evento, valorPont);
 });
 
-/* --------------------- NAVBAR E PÁGINAS --------------------- */
 
 const botoes = document.querySelectorAll(".navbar h3");
 const conteudo = document.getElementById("conteudo");
@@ -222,8 +232,8 @@ const paginas = {
   `,
     objetivos: `
     <div class="fade-in objetivos-content">
-      <h4>Objetivo 1: Clique 50 vezes</h4>
-      <h4>Objetivo 2: Ganhe 100 moedas</h4>
+      <h4>Objetivo 1: Clique 100 vezes</h4>
+      <h4>Objetivo 2: Ganhe 1000 miados</h4>
     </div>
   `,
     salvar: `
@@ -242,18 +252,15 @@ botoes.forEach(botao => {
         if (paginaAttr && paginaAttr in paginas) {
             const pagina = paginaAttr as keyof typeof paginas;
             conteudo.innerHTML = paginas[pagina];
-            ligarBotoes(); // liga os botões dos upgrades após trocar a página
+            ligarBotoes();
         }
     });
 });
 
-/* --------------------- CRIAÇÃO DE UPGRADES --------------------- */
-
 const upgradeClick = new UpgradeClick("Clique Duplo", 100, 2);
-const upPassivo1 = new UpgradePassivo("Passivo 1", 50, 1);
-const upPassivo2 = new UpgradePassivo("Passivo 2", 200, 5);
+const upPassivo1 = new UpgradePassivo("GatoHacker", 50, 1);
+const upPassivo2 = new UpgradePassivo("Filhote", 200, 5);
 
-/* --------------------- FUNÇÃO PARA LIGAR BOTÕES --------------------- */
 
 function ligarBotoes() {
     const btnUpClick = document.getElementById("btn-upClick");
@@ -275,4 +282,28 @@ function ligarBotoes() {
     }
 
     console.log(btnUpClick, btnUpPassivo1, btnUpPassivo2);
+}
+
+function adicionarCardGato(imagem: string, nome: string) {
+  let container;
+  if(nome === "GatoHacker"){
+    container = document.getElementById("cards-gatos");
+  }
+  else if(nome === "Filhote"){
+    container = document.getElementById("cards-gatos1");
+  }
+
+
+  if (!container) return;
+
+  const card = document.createElement("div");
+  card.classList.add("card-gato");
+
+  const img = document.createElement("img");
+  img.src = imagem;
+  img.alt = nome;
+
+  card.title = nome;
+  card.appendChild(img);
+  container.appendChild(card);
 }

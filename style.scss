@@ -225,7 +225,7 @@ body {
 .linha-up {
   display: flex;
   height: 20vh;
-  border: solid;
+  //border: solid;
 }
 
 .card-up {
@@ -284,9 +284,75 @@ body {
     }
   }
 
+  #btn-upPassivo2{
+    margin-top: 1.3rem;
+    width: 100px;
+    height: 30px;
+    border: 1px;
+    border-radius: 10px;
+    background-color: #22a122;
+    color: white;
+
+    cursor: pointer;
+    transition: background 0.2s;
+
+    &:hover {
+      background: #115c25;
+    }
+  }
+
+
   p{
     font-family: "Poppins", sans-serif;
     font-size: 15px;
     font-weight: 400;
   }
+}
+
+.colecao {
+  margin-top: 100px;
+  height: 60%;
+  //border: solid;
+  width: 35%;
+}
+
+.cards-container {
+  display: flex;
+  flex-wrap: wrap;
+}
+
+.card-gato {
+  width: 45px;
+  height: 120px;
+  overflow: hidden;
+  transition: transform 0.3s;
+  flex: 1 1 auto;
+  margin: 0;
+}
+
+.card-gato:hover {
+  transform: scale(1.1);
+}
+
+.card-gato img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+
+
+
+.colecoes{
+  display: flex;
+  gap: 4rem;
+  width: 100%;
+  height: 80%;
+}
+
+.colecao1 {
+  margin-top: 100px;
+  height: 60%;
+  margin-left: 15rem;
+  //border: solid;
+  width: 35%;
 }
