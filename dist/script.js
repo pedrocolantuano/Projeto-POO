@@ -134,6 +134,17 @@ const valorPont = document.getElementById("pontuacao");
 imgGato.addEventListener("click", (evento) => {
     jogo.clicar(evento, valorPont);
 });
+imgGato.addEventListener("keydown", (event) => {
+    if (event.key === "Enter" || event.key === " ") {
+        event.preventDefault(); // impede rolagem da página quando espaço for pressionado
+        // cria um objeto MouseEvent falso para reutilizar a animação e lógica do clique
+        const fakeMouseEvent = new MouseEvent("click", {
+            clientX: imgGato.getBoundingClientRect().left + imgGato.clientWidth / 2,
+            clientY: imgGato.getBoundingClientRect().top + imgGato.clientHeight / 2
+        });
+        imgGato.dispatchEvent(fakeMouseEvent);
+    }
+});
 const botoes = document.querySelectorAll(".navbar h3");
 const conteudo = document.getElementById("conteudo");
 if (!conteudo)

@@ -356,3 +356,15 @@ body {
   //border: solid;
   width: 35%;
 }
+
+
+button:focus, h3:focus {
+  outline: 3px solid #0072ff;
+  outline-offset: 2px;
+}
+
+#gatoSol:focus {
+  outline: 3px solid #0072ff;
+  outline-offset: 4px;
+  border-radius: 50%;
+}

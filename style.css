@@ -314,4 +314,15 @@ body {
   height: 60%;
   margin-left: 15rem;
   width: 35%;
+}
+
+button:focus, h3:focus {
+  outline: 3px solid #0072ff;
+  outline-offset: 2px;
+}
+
+#gatoSol:focus {
+  outline: 3px solid #0072ff;
+  outline-offset: 4px;
+  border-radius: 50%;
 }/*# sourceMappingURL=style.css.map */
