@@ -33,6 +33,13 @@ body {
     font-size: 2rem;
     padding-left: 2rem;
   }
+
+  @media (max-width: 768px) {
+    h1{
+      margin-left: 50%;
+    }
+
+  }
 }
 
 .hud {
@@ -184,9 +191,10 @@ body {
   }
 }
 
-.intro-ups{
+.intro-ups {
   padding-top: 3rem;
-  h1{
+
+  h1 {
     text-align: center;
     padding-bottom: 1rem;
     font-family: "Poppins", sans-serif;
@@ -237,38 +245,41 @@ body {
 
 .img-up {
   width: 100%;
-  display: flex; /* Para centralizar o conteúdo */
+  display: flex;
+  /* Para centralizar o conteúdo */
   justify-content: center;
   align-items: center;
   /* 1. Adicione overflow: hidden; para cortar o excesso */
-  overflow: hidden; 
+  overflow: hidden;
   /* Opcional: Garante que o container pai tenha uma altura definida para o overflow funcionar bem */
   height: 100%;
-  
+
 }
 
 .img-up img {
   width: 300%;
 }
 
-.txt-btn{
+.txt-btn {
   width: 50%;
-  h4{
+
+  h4 {
     padding-top: 1rem;
     font-family: "Poppins", sans-serif;
     font-size: 1rem;
     font-weight: 700;
   }
 
-  .desc{
+  .desc {
     padding-top: 0.3rem;
     font-family: "Poppins", sans-serif;
     font-size: 15px;
     font-weight: 400;
     padding-bottom: 1rem;
+    height: 50%;
   }
 
-  #btn-upPassivo1{
+  #btn-upPassivo1 {
     width: 100px;
     height: 30px;
     border: 1px;
@@ -284,8 +295,7 @@ body {
     }
   }
 
-  #btn-upPassivo2{
-    margin-top: 1.3rem;
+  #btn-upPassivo2 {
     width: 100px;
     height: 30px;
     border: 1px;
@@ -302,7 +312,7 @@ body {
   }
 
 
-  p{
+  p {
     font-family: "Poppins", sans-serif;
     font-size: 15px;
     font-weight: 400;
@@ -342,7 +352,7 @@ body {
 
 
 
-.colecoes{
+.colecoes {
   display: flex;
   gap: 4rem;
   width: 100%;
@@ -358,7 +368,8 @@ body {
 }
 
 
-button:focus, h3:focus {
+button:focus,
+h3:focus {
   outline: 3px solid #0072ff;
   outline-offset: 2px;
 }
@@ -367,4 +378,26 @@ button:focus, h3:focus {
   outline: 3px solid #0072ff;
   outline-offset: 4px;
   border-radius: 50%;
+}
+
+
+@media (max-width: 768px) {
+  .div-btn {
+    position: absolute;
+    margin-left: -9rem;
+  }
+
+  .linha-up {
+    height: 30vh;
+  }
+
+  .img-up {
+    width: 100%;
+    display: flex;
+    margin-top: -3rem;
+    height: 100%;
+
+  }
+
+
 }

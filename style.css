@@ -33,6 +33,11 @@ body {
   font-size: 2rem;
   padding-left: 2rem;
 }
+@media (max-width: 768px) {
+  .jogo h1 {
+    margin-left: 50%;
+  }
+}
 
 .hud {
   width: 50vw;
@@ -209,7 +214,8 @@ body {
 
 .img-up {
   width: 100%;
-  display: flex; /* Para centralizar o conteúdo */
+  display: flex;
+  /* Para centralizar o conteúdo */
   justify-content: center;
   align-items: center;
   /* 1. Adicione overflow: hidden; para cortar o excesso */
@@ -237,6 +243,7 @@ body {
   font-size: 15px;
   font-weight: 400;
   padding-bottom: 1rem;
+  height: 50%;
 }
 .txt-btn #btn-upPassivo1 {
   width: 100px;
@@ -252,7 +259,6 @@ body {
   background: #115c25;
 }
 .txt-btn #btn-upPassivo2 {
-  margin-top: 1.3rem;
   width: 100px;
   height: 30px;
   border: 1px;
@@ -316,7 +322,8 @@ body {
   width: 35%;
 }
 
-button:focus, h3:focus {
+button:focus,
+h3:focus {
   outline: 3px solid #0072ff;
   outline-offset: 2px;
 }
@@ -325,4 +332,20 @@ button:focus, h3:focus {
   outline: 3px solid #0072ff;
   outline-offset: 4px;
   border-radius: 50%;
+}
+
+@media (max-width: 768px) {
+  .div-btn {
+    position: absolute;
+    margin-left: -9rem;
+  }
+  .linha-up {
+    height: 30vh;
+  }
+  .img-up {
+    width: 100%;
+    display: flex;
+    margin-top: -3rem;
+    height: 100%;
+  }
 }/*# sourceMappingURL=style.css.map */
