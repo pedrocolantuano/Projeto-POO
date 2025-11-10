@@ -16,13 +16,26 @@ class Banco {
     }
 }
 class Click {
-    constructor(valorInicial = 1) { this.valor = valorInicial; }
+    constructor(valorInicial = 1) {
+        this.miados = [];
+        this.ultimoSom = 0;
+        this.intervaloMinimo = 100;
+        this.valor = valorInicial;
+        this.miados = [
+            new Audio("../song/cat-meow.mp3"),
+            new Audio("../song/cat-meow2.mp3"),
+            new Audio("../song/cat-meow3.mp3")
+        ];
+        // volume
+        this.miados.forEach(som => som.volume = 0.2);
+    }
     getValor() { return this.valor; }
     aumentarValor(valor) { this.valor += valor; }
     clicar(banco, valorPont, clicou) {
         banco.adicionar(this.valor);
         valorPont.textContent = Math.floor(banco.getSaldo()).toString();
         this.animarClique(clicou);
+        this.miar(clicou);
     }
     animarClique(clicou) {
         const num = document.createElement("span");
@@ -32,6 +45,22 @@ class Click {
         num.style.top = `${clicou.clientY - 20}px`;
         document.body.appendChild(num);
         setTimeout(() => num.remove(), 500);
+    }
+    miar(clicou) {
+        const agora = Date.now();
+        if (agora - this.ultimoSom < this.intervaloMinimo)
+            return;
+        this.ultimoSom = agora;
+        const indice = Math.floor(Math.random() * this.miados.length);
+        const somOriginal = this.miados[indice];
+        if (!somOriginal) {
+            console.warn("⚠️ Som original indefinido no índice:", indice);
+            return;
+        }
+        const som = somOriginal.cloneNode();
+        som.volume = 0 + Math.random() * 0.01;
+        som.playbackRate = 0.5 + Math.random() * 0.1;
+        som.play();
     }
 }
 class UpgradeClick {
@@ -252,5 +281,6 @@ function adicionarCardGato(imagem, nome) {
     card.appendChild(img);
     container.appendChild(card);
 }
+const miado = new Audio('../song/cat-meow.mp3');
 export {};
 //# sourceMappingURL=script.js.map

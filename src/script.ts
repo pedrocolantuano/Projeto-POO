@@ -24,8 +24,22 @@ class Banco {
 
 class Click {
     private valor: number;
+    private miados: HTMLAudioElement[] = [];
+    private ultimoSom: number = 0;
+    private intervaloMinimo: number = 100;
 
-    constructor(valorInicial: number = 1) { this.valor = valorInicial; }
+    constructor(valorInicial: number = 1) { 
+        this.valor = valorInicial; 
+    
+        this.miados = [
+            new Audio("../song/cat-meow.mp3"),
+            new Audio("../song/cat-meow2.mp3"),
+            new Audio("../song/cat-meow3.mp3")
+        ];
+
+        // volume
+        this.miados.forEach(som => som.volume = 0.2);
+    }
 
     getValor(): number { return this.valor; }
 
@@ -35,6 +49,7 @@ class Click {
         banco.adicionar(this.valor);
         valorPont.textContent = Math.floor(banco.getSaldo()).toString();
         this.animarClique(clicou);
+        this.miar(clicou);
     }
 
     private animarClique(clicou: MouseEvent): void {
@@ -46,6 +61,28 @@ class Click {
         document.body.appendChild(num);
         setTimeout(() => num.remove(), 500);
     }
+
+    private miar(clicou: MouseEvent): void {
+        const agora = Date.now();
+
+        
+        if (agora - this.ultimoSom < this.intervaloMinimo) return;
+        this.ultimoSom = agora;
+
+        const indice = Math.floor(Math.random() * this.miados.length);
+        const somOriginal = this.miados[indice];
+        if (!somOriginal) {
+            console.warn("⚠️ Som original indefinido no índice:", indice);
+            return;
+        }
+
+        const som = somOriginal.cloneNode() as HTMLAudioElement;
+        som.volume = 0 + Math.random() * 0.01;
+        som.playbackRate = 0.5 + Math.random() * 0.1;
+        som.play();
+    }
+
+
 }
 
 
@@ -106,10 +143,10 @@ class UpgradePassivo {
             this.custo = Math.floor(this.custo * 1.5);
             spanPreco.textContent = this.custo.toString();
             console.log(`${this.nome} nível ${this.nivel} comprado! Novo custo: ${this.custo}`);
-            if(this.nome === "GatoHacker"){
+            if (this.nome === "GatoHacker") {
                 adicionarCardGato("../img/up1.png", this.nome);
             }
-            else if(this.nome === "Filhote"){
+            else if (this.nome === "Filhote") {
                 adicionarCardGato("../img/up2.png", this.nome);
             }
             return true;
@@ -299,25 +336,28 @@ function ligarBotoes() {
 }
 
 function adicionarCardGato(imagem: string, nome: string) {
-  let container;
-  if(nome === "GatoHacker"){
-    container = document.getElementById("cards-gatos");
-  }
-  else if(nome === "Filhote"){
-    container = document.getElementById("cards-gatos1");
-  }
+    let container;
+    if (nome === "GatoHacker") {
+        container = document.getElementById("cards-gatos");
+    }
+    else if (nome === "Filhote") {
+        container = document.getElementById("cards-gatos1");
+    }
 
 
-  if (!container) return;
+    if (!container) return;
 
-  const card = document.createElement("div");
-  card.classList.add("card-gato");
+    const card = document.createElement("div");
+    card.classList.add("card-gato");
 
-  const img = document.createElement("img");
-  img.src = imagem;
-  img.alt = nome;
+    const img = document.createElement("img");
+    img.src = imagem;
+    img.alt = nome;
 
-  card.title = nome;
-  card.appendChild(img);
-  container.appendChild(card);
+    card.title = nome;
+    card.appendChild(img);
+    container.appendChild(card);
 }
+
+
+const miado = new Audio('../song/cat-meow.mp3');
