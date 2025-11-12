@@ -33,7 +33,7 @@ body {
   font-size: 2rem;
   padding-left: 2rem;
 }
-@media (max-width: 768px) {
+@media (max-width: 1000px) {
   .jogo h1 {
     margin-left: 50%;
   }
@@ -203,7 +203,7 @@ body {
 
 .linha-up {
   display: flex;
-  height: 20vh;
+  height: 30vh;
 }
 
 .card-up {
@@ -337,7 +337,7 @@ h3:focus {
 @media (max-width: 768px) {
   .div-btn {
     position: absolute;
-    margin-left: -9rem;
+    margin-left: -20%;
   }
   .linha-up {
     height: 30vh;

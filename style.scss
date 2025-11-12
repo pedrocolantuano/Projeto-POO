@@ -34,7 +34,7 @@ body {
     padding-left: 2rem;
   }
 
-  @media (max-width: 768px) {
+  @media (max-width: 1000px) {
     h1{
       margin-left: 50%;
     }
@@ -232,7 +232,7 @@ body {
 
 .linha-up {
   display: flex;
-  height: 20vh;
+  height: 30vh;
   //border: solid;
 }
 
@@ -259,6 +259,7 @@ body {
 .img-up img {
   width: 300%;
 }
+
 
 .txt-btn {
   width: 50%;
@@ -384,7 +385,7 @@ h3:focus {
 @media (max-width: 768px) {
   .div-btn {
     position: absolute;
-    margin-left: -9rem;
+    margin-left: -20%;
   }
 
   .linha-up {
